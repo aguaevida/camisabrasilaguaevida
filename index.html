@@ -222,7 +222,6 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a1a2e;
 <!-- Tabs -->
 <div class="tab-bar">
   <div class="tab active" onclick="showPage('participar',this)">🎟️ Participar</div>
-  <div class="tab" onclick="showPage('pix',this)">💳 Pagar</div>
   <div class="tab" onclick="showPage('sorteio',this)">🎲 Sorteio</div>
 </div>
 
@@ -273,11 +272,9 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a1a2e;
       <div class="security-badge">🔒 Reserva registrada em banco de dados em tempo real. Sem duplicações.</div>
     </div>
   </div>
-</div>
 
-<!-- ── PIX ── -->
-<div class="page" id="page-pix">
   <div class="section">
+    <h3>Como Pagar</h3>
     <div class="pix-card">
       <div class="pix-beneficiario">
         <div class="label">Beneficiário</div>
@@ -292,10 +289,10 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a1a2e;
       <div class="steps-box">
         <p>
           <strong>Como participar:</strong><br>
-          1️⃣ Escolha seu(s) número(s) na aba <em>Participar</em><br>
-          2️⃣ Faça o Pix para a Associação Água e Vida<br>
-          3️⃣ Envie o comprovante pelo WhatsApp<br>
-          4️⃣ Aguarde a confirmação da reserva ✅
+          1️⃣ Escolha seu(s) número(s) acima<br>
+          2️⃣ Preencha seus dados e clique em Reservar<br>
+          3️⃣ Faça o Pix para a Associação Água e Vida<br>
+          4️⃣ Envie o comprovante pelo WhatsApp ✅
         </p>
       </div>
       <div class="causa-box">
@@ -672,17 +669,17 @@ async function realizarSorteio() {
 
   let count = 0;
   const interval = setInterval(async () => {
-    display.textContent = String(confirmed[Math.floor(Math.random() * confirmed.length)]).padStart(2, '00');
+    display.textContent = String(confirmed[Math.floor(Math.random() * confirmed.length)]).padStart(2, '0');
     count++;
     if (count >= 30) {
       clearInterval(interval);
       // Entropia: timestamp + crypto random
       const rnd    = window.crypto ? window.crypto.getRandomValues(new Uint32Array(1))[0] : Math.random() * 4294967295;
-      const idx    = (Date.now() + rnd) % confirmed.length;
-      const winner = confirmed[Math.floor(idx)];
+      const idx    = Math.floor((Date.now() + rnd) % confirmed.length);
+      const winner = confirmed[idx];
       const p      = numeros[winner];
 
-      display.textContent = '🏆 ' + String(winner).padStart(2, '00');
+      display.textContent = '🏆 ' + String(winner).padStart(2, '0');
       if (p) nameEl.textContent = '🎉 Vencedor: ' + p.nome;
 
       const ts    = new Date().toLocaleString('pt-BR');
